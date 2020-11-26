@@ -1,0 +1,41 @@
+swiper {
+  height: 330rpx;
+
+  .swiper-item,
+  navigator,
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.navs {
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+  display: flex;
+  .item {
+    flex: 1;
+    .item-navs {
+      display: flex;
+      justify-content: center;
+    }
+    image {
+      height: 140rpx;
+      width: 128rpx;
+    }
+  }
+}
+.floor_list {
+  .floor-title {
+    width: 100%;
+    height: 60rpx;
+  }
+  .content {
+    display: flex;
+    .right-img-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+  }
+}
