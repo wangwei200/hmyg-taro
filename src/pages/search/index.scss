@@ -1,0 +1,59 @@
+@import "~taro-ui/dist/style/components/icon.scss";
+@import "~taro-ui/dist/style/components/list.scss";
+@import "~taro-ui/dist/style/components/tag.scss";
+
+.search_header {
+  position: relative;
+  .search_icon {
+    position: absolute;
+    left: 22rpx;
+    top: 41rpx;
+    color: #999;
+  }
+  .search_clear {
+    position: absolute;
+    color: #999;
+    top: 41rpx;
+    right: 25rpx;
+    z-index: 999;
+  }
+  .search_container {
+    background-color: #d81e06;
+    padding: 15rpx;
+    .search_input {
+      height: 80rpx;
+      padding-left: 50rpx;
+      background-color: #fff;
+      border-radius: 40rpx;
+      font-size: 24rpx;
+    }
+  }
+}
+
+.search_history {
+  .title {
+    height: 80rpx;
+    display: flex;
+    margin: 0 10rpx;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1rpx solid #ccc;
+  }
+}
+
+.search_list {
+  .search_item {
+    .item-content__info-title {
+      font-size: 24rpx;
+    }
+  }
+}
+.search_history_data {
+  display: flex;
+  margin-top: 15rpx;
+  justify-content: left;
+  flex-wrap: wrap;
+  .at-tag {
+    margin-left: 30rpx;
+  }
+}

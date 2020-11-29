@@ -1,0 +1,64 @@
+.scroll-view-container {
+  display: flex;
+
+  .leftNavs {
+    height: 100%;
+    width: 150px;
+    text-align: left;
+    .item {
+      background-color: #f7f7f7;
+      line-height: 80px;
+      text-align: center;
+      font-size: 24rpx;
+      &.active {
+        background-color: #ffffff;
+        position: relative;
+
+        &::before {
+          content: " ";
+          display: block;
+          width: 5px;
+          height: 80px;
+          background-color: #c00000;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+
+  .rightNavs {
+    flex: 1;
+    .right-title {
+      font-size: 24rpx;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      margin: 0 50rpx;
+      border-bottom: 1rpx solid #eee;
+    }
+    .right-content {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .right-content-item {
+      width: 33.33%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+
+      image {
+        width: 100rpx;
+        height: 100rpx;
+      }
+
+      text {
+        font-size: 24rpx;
+      }
+    }
+  }
+}

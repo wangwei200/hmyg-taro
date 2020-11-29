@@ -6,6 +6,8 @@ import { Swiper, SwiperItem, Navigator, Image } from "@tarojs/components";
 
 import { SWIPER_URL, NAV_URL, FLOOR_URL } from "../../../utils/http";
 
+import Search from "../../../components/search";
+
 import "./index.scss";
 
 export default class Home extends Component {
@@ -148,10 +150,7 @@ export default class Home extends Component {
     return item.product_list.map((item, index) => {
       if (index === 0) return "";
       return (
-        <Navigator
-          url={item.navigator_url}
-          open-type={item.open_type}
-        >
+        <Navigator url={item.navigator_url} open-type={item.open_type}>
           <Image
             src={item.image_src}
             mode="widthFix"
@@ -164,6 +163,7 @@ export default class Home extends Component {
   render() {
     return (
       <view>
+        <Search />
         <Swiper
           circular
           indicatorDots

@@ -1,0 +1,15 @@
+@import "~taro-ui/dist/style/components/icon.scss";
+
+.search {
+  background-color: #d81e06;
+  height: 80rpx;
+  border-top: 1px solid transparent;
+  .content {
+    margin: 10rpx 15rpx 15rpx 15rpx;
+    border-radius: 30rpx;
+    height: 60rpx;
+    background-color: #fff;
+    text-align: center;
+    line-height: 60rpx;
+  }
+}

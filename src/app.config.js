@@ -4,12 +4,25 @@ export default {
     "pages/tabbar/cate/index",
     "pages/tabbar/cart/index",
     "pages/tabbar/my/index",
+    "pages/search/index",
   ],
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#D81E06",
     navigationBarTitleText: "黑马优购",
     navigationBarTextStyle: "white",
+  },
+  subpackages: [
+    {
+      root: "subPackages",
+      pages: ["pages/goods_list/goods_list", "pages/goods_detail/goods_detail"],
+    },
+  ],
+  preloadRule: {
+    "pages/tabbar/cate/index": {
+      network: "all",
+      packages: ["subPackages"],
+    },
   },
   tabBar: {
     list: [

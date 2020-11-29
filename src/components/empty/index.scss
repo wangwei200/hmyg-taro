@@ -1,0 +1,17 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px;
+
+  .empty-img {
+    width: 120rpx;
+    height: 120rpx;
+  }
+
+  .tip-text {
+    font-size: 24rpx;
+    color: gray;
+    margin-top: 60rpx;
+  }
+}

@@ -1,0 +1,32 @@
+.goods_item {
+  display: flex;
+  position: relative;
+  height: 242rpx;
+  padding: 15rpx 10rpx;
+  border-bottom: 1rpx solid #ccc;
+  align-items: center;
+  .left_thumb {
+    height: 200rpx;
+    width: 200rpx;
+    margin-right: 20rpx;
+    .thumb {
+      width: 200rpx;
+      vertical-align: middle;
+    }
+  }
+  .right_content {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    .title {
+      font-size: 26rpx;
+    }
+    .desc {
+      position: absolute;
+      bottom: 0rpx;
+      left: 10rpx;
+      font-size: 32rpx;
+      font-weight: 700;
+    }
+  }
+}
