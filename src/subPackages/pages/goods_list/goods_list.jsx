@@ -7,12 +7,9 @@ import Taro, {
 
 import { GOODS_LIST_URL } from "../../../utils/http";
 
-import Empty from "../../../components/empty";
-
 import GoodsItem from "../../../components/goodsItem";
 
 export default function () {
-  console.log("进入了函数");
   // 商品列表数据
   const [resInfo, setResInfo] = useState({
     goodsList: [],
@@ -27,8 +24,7 @@ export default function () {
   });
   // 解构路由参数
   const { params } = useRouter();
-  // 是否加载中
-  let loading = false;
+  const [isLoading, changeLoadingStatus] = useState(false);
 
   // 初始化query值
   const [query] = useState(params.query || "");
@@ -42,7 +38,7 @@ export default function () {
   }, [queryInfo.page]);
   // 请求数据
   async function requestGoods() {
-    loading = true;
+    changeLoadingStatus(true);
     // 发送请求
     const result = await Taro.request({
       url: GOODS_LIST_URL,
@@ -53,9 +49,14 @@ export default function () {
       },
     });
     if (!result) return;
-    loading = false;
+
+    changeLoadingStatus(false);
+
     setResInfo((res) => {
-      if (res.page === 1) Taro.stopPullDownRefresh();
+      if (queryInfo.page === 1) {
+        res.goodsList = [];
+        Taro.stopPullDownRefresh();
+      }
       return {
         total: result.total,
         goodsList: [...res.goodsList, ...result.goods],
@@ -87,15 +88,9 @@ export default function () {
   }
   // 下拉刷新
   usePullDownRefresh(() => {
-    if (loading) return;
+    if (isLoading) return;
     // 解决一下第一次进来的时候不出发 effects的问题
 
-    setResInfo((res) => {
-      return {
-        ...res,
-        goodsList: [],
-      };
-    });
     console.log(queryInfo.page);
     if (queryInfo.page === 1) return requestGoods();
     // 重置页码值，进行请求
@@ -105,14 +100,9 @@ export default function () {
         page: 1,
       };
     });
-    // requestGoods(() => {
-    //   // 请求成功，停止下拉刷新
-    //   Taro.stopPullDownRefresh();
-    //   console.log(resInfo.goodsList);
-    // });
   });
   useReachBottom(() => {
-    if (loading) return;
+    if (isLoading) return;
     // 判断加载的数据是否超过服务器的最大条目数
     const { page, pageSize } = queryInfo;
     const { total } = resInfo;
@@ -125,17 +115,10 @@ export default function () {
       page: page + 1,
       pageSize: 10,
     });
-    // requestGoods();
   });
   return (
     <view>
-      {resInfo.goodsList.length > 0 ? (
-        <view className="goods_list">{renderGoodsItem()}</view>
-      ) : (
-        <view className="empry">
-          <Empty />
-        </view>
-      )}
+      <view className="goods_list">{renderGoodsItem()}</view>
     </view>
   );
 }

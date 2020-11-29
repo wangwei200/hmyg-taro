@@ -4,6 +4,8 @@ import Taro from "@tarojs/taro";
 
 import { Swiper, SwiperItem, Navigator, Image } from "@tarojs/components";
 
+import HMSwiper from "../../../components/swiper";
+
 import { SWIPER_URL, NAV_URL, FLOOR_URL } from "../../../utils/http";
 
 import Search from "../../../components/search";
@@ -61,24 +63,13 @@ export default class Home extends Component {
       swiperList: [...result],
     });
   }
-  renderSwiper() {
-    return this.state.swiperList.map((item) => {
-      return (
-        <SwiperItem>
-          <Navigator url={item.navigator_url} open-type={item.open_type}>
-            <Image src={item.image_src} />
-          </Navigator>
-        </SwiperItem>
-      );
-    });
-  }
   /**
    * 渲染 navs
    */
   renderNavs() {
-    return this.state.navs.map((item) => {
+    return this.state.navs.map((item, index) => {
       return (
-        <view className="item">
+        <view key={index} className="item">
           {item.navigator_url
             ? this.renderNavsUrl(item)
             : this.renderNavsPlain(item)}
@@ -146,11 +137,15 @@ export default class Home extends Component {
    * 渲染楼层去内容区域
    * @param {*} item
    */
-  renderFloorRightContainer(item) {
-    return item.product_list.map((item, index) => {
+  renderFloorRightContainer(floorData) {
+    return floorData.product_list.map((item, index) => {
       if (index === 0) return "";
       return (
-        <Navigator url={item.navigator_url} open-type={item.open_type}>
+        <Navigator
+          key={index}
+          url={item.navigator_url}
+          open-type={item.open_type}
+        >
           <Image
             src={item.image_src}
             mode="widthFix"
@@ -164,16 +159,12 @@ export default class Home extends Component {
     return (
       <view>
         <Search />
-        <Swiper
-          circular
-          indicatorDots
-          autoplay
-          indicatorColor="#999"
-          indicatorActiveColor="#fff"
-        >
-          {/* 渲染轮播图 */}
-          {this.renderSwiper()}
-        </Swiper>
+        <HMSwiper
+          items={this.state.swiperList}
+          url="navigator_url"
+          img="image_src"
+          opentype="open_type"
+        />
 
         {/* 渲染navs */}
         <view class="navs">{this.renderNavs()}</view>
