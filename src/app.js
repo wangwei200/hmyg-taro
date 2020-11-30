@@ -1,10 +1,16 @@
-import { Component } from "react";
+import React, { Component } from "react";
 
 import Taro from "@tarojs/taro";
+
+import { Provider } from "react-redux";
+
+import configStore from "./store";
 
 import { BASE_URL } from "../src/utils/http";
 
 import "./app.scss";
+
+const store = configStore();
 
 class App extends Component {
   onLaunch() {
@@ -60,7 +66,7 @@ class App extends Component {
 
   // this.props.children 是将要会渲染的页面
   render() {
-    return this.props.children;
+    return <Provider store={store}>{this.props.children}</Provider>;
   }
 }
 

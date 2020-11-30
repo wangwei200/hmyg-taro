@@ -2,13 +2,33 @@ import React, { useState, useEffect } from "react";
 
 import Taro, { useRouter } from "@tarojs/taro";
 
+import { useSelector, useDispatch } from "react-redux";
+
 import HMSwiper from "../../../components/swiper";
+
+import HMGoodsNav from "../../../components/HMGoodsNav";
+
+import { cart_add } from "../../../store/action/cart";
 
 import { GOODS_DETAIL_URL } from "../../../utils/http";
 
 import "./goods_detail.scss";
-
+// @connect((res) => {
+//   console.log(res)
+// },(dispatch) => ({
+//   // 绑定方法
+//   getCartCount(){
+//     dispatch(cart_count())
+//   },
+//   addCart(){
+//     dispatch(cart_add())
+//   }
+// }))
 function GoodsDetail() {
+  // 利用hooks配合redux
+  const dispatch = useDispatch();
+  // 只要更新了数据就会触发，得到最新的数据
+  const carts = useSelector(({ cartReducer }) => cartReducer.carts);
   const [detailInfo, setDetailInfo] = useState({
     pics: [],
   });
@@ -32,7 +52,6 @@ function GoodsDetail() {
   function renderAttr() {
     if (!detailInfo.attrs || detailInfo.attrs.length <= 0) return "";
     return detailInfo.attrs.map((attr) => {
-      console.log(attr);
       return (
         <view key={attr.attr_id} className="attr_item">
           <view className="name">{attr.attr_name}</view>
@@ -41,30 +60,81 @@ function GoodsDetail() {
       );
     });
   }
+
+  const options = [
+    {
+      icon: "shopping-bag",
+      text: "店铺",
+    },
+    {
+      icon: "shopping-cart",
+      text: "购物车",
+      info: carts.length + "",
+    },
+  ];
+
+  const buttonGroup = [
+    {
+      text: "加入购物车",
+      backgroundColor: "#ff0000",
+      color: "#fff",
+    },
+    {
+      text: "立即购买",
+      backgroundColor: "#ffa200",
+      color: "#fff",
+    },
+  ];
+  // 左侧图标的点击事件
+  const iconClickHandler = (index) => {
+    if (index === 1) {
+      // 购物车
+      Taro.switchTab({
+        url: "/pages/tabbar/cart/index",
+      });
+    }
+  };
+  const buttonClickHandler = (index) => {
+    if (index === 0) {
+      // 加入购物车
+      dispatch(cart_add(detailInfo));
+    } else if (index === 1) {
+      // 立即购买
+    }
+  };
   return (
     <view className="goods_detail">
-      <HMSwiper
-        items={detailInfo.pics}
-        img="pics_big"
-        id="goods_id"
-        height="750rpx"
+      <view className="content">
+        <HMSwiper
+          items={detailInfo.pics}
+          img="pics_big"
+          id="goods_id"
+          height="750rpx"
+        />
+        <view className="goods_info">
+          <view className="left">
+            <view className="price">￥{detailInfo.goods_price}</view>
+            <view className="name">{detailInfo.goods_name}</view>
+            <view className="kuaidi">快递：免运费</view>
+          </view>
+          <view className="right">
+            <view className="at-icon at-icon-star"></view>
+            <text className="chouc">收藏</text>
+          </view>
+        </view>
+        <view className="attr">
+          <view className="title">配置：</view>
+          {renderAttr()}
+        </view>
+        <rich-text nodes={detailInfo.goods_introduce}></rich-text>
+      </view>
+
+      <HMGoodsNav
+        options={options}
+        buttonGroup={buttonGroup}
+        onClick={iconClickHandler}
+        onButtonClick={buttonClickHandler}
       />
-      <view className="goods_info">
-        <view className="left">
-          <view className="price">￥{detailInfo.goods_price}</view>
-          <view className="name">{detailInfo.goods_name}</view>
-          <view className="kuaidi">快递：免运费</view>
-        </view>
-        <view className="right">
-          <view className="at-icon at-icon-star"></view>
-          <text className="chouc">收藏</text>
-        </view>
-      </view>
-      <view className="attr">
-        <view className="title">配置：</view>
-        {renderAttr()}
-      </view>
-      <rich-text nodes={detailInfo.goods_introduce}></rich-text>
     </view>
   );
 }

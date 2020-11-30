@@ -1,0 +1,66 @@
+@import "~taro-ui/dist/style/components/icon.scss";
+
+.goods_nav {
+  display: flex;
+  padding: 5rpx 15rpx;
+  height: 100rpx;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: #fff;
+  border-top: 1rpx solid #eee;
+  .left_icon {
+    flex: 2;
+    height: 100%;
+    display: flex;
+    margin-right: 15rpx;
+    .left_icon_item {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .at-icon {
+        font-size: 40rpx;
+      }
+      .title {
+        font-size: 24rpx;
+      }
+      .info {
+        position: absolute;
+        width: 30rpx;
+        height: 30rpx;
+        text-align: center;
+        line-height: 30rpx;
+        border-radius: 13rpx;
+        right: 25rpx;
+        top: 5rpx;
+        background-color: #ff0000;
+        color: #fff;
+        font-size: 24rpx;
+      }
+    }
+  }
+  .right_btn {
+    flex: 4;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    :first-child {
+      border-top-left-radius: 40rpx;
+      border-bottom-left-radius: 40rpx;
+    }
+    :last-child {
+      border-top-right-radius: 40rpx;
+      border-bottom-right-radius: 40rpx;
+    }
+    .right_btn_item {
+      flex: 1;
+      height: 80rpx;
+      text-align: center;
+      line-height: 80rpx;
+      font-size: 28rpx;
+    }
+  }
+}

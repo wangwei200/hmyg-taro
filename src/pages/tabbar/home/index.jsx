@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Taro from "@tarojs/taro";
 
-import { Swiper, SwiperItem, Navigator, Image } from "@tarojs/components";
+import { Navigator, Image } from "@tarojs/components";
 
 import HMSwiper from "../../../components/swiper";
 
@@ -160,6 +160,7 @@ export default class Home extends Component {
       <view>
         <Search />
         <HMSwiper
+          id="navigator_url"
           items={this.state.swiperList}
           url="navigator_url"
           img="image_src"
