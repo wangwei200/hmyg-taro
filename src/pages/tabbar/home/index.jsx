@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+
 import Taro from "@tarojs/taro";
 
 import { Navigator, Image } from "@tarojs/components";
@@ -12,7 +14,10 @@ import Search from "../../../components/search";
 
 import "./index.scss";
 
-export default class Home extends Component {
+@connect(({ cartReducer }) => {
+  return cartReducer;
+})
+class Home extends Component {
   state = {
     swiperList: [],
     navs: [],
@@ -76,6 +81,17 @@ export default class Home extends Component {
         </view>
       );
     });
+  }
+  /**
+   * 页面显示时候调用
+   */
+  componentDidShow() {
+    const { carts } = this.props;
+    // 设置tabBar的徽章
+    Taro.setTabBarBadge({
+      index: 2,
+      text: carts.length + "",
+    }).catch((e) => e);
   }
   /**
    * 渲染携带url的
@@ -160,7 +176,6 @@ export default class Home extends Component {
       <view>
         <Search />
         <HMSwiper
-          id="navigator_url"
           items={this.state.swiperList}
           url="navigator_url"
           img="image_src"
@@ -176,3 +191,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default Home;

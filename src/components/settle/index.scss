@@ -1,0 +1,50 @@
+.settle {
+  $height: 60rpx;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+  align-items: center;
+  background-color: #fff;
+  z-index: 999;
+  border-top: 1rpx solid #eee;
+  .left_checked {
+    flex: 1;
+    margin-left: 10rpx;
+    line-height: $height;
+    .icon {
+      width: $height;
+      height: $height;
+      vertical-align: middle;
+      margin-right: 7rpx;
+    }
+    .text_desc {
+      vertical-align: middle;
+      font-size: 24rpx;
+    }
+  }
+  .middle {
+    .text_desc {
+      font-size: 24rpx;
+    }
+    .text_price {
+      font-size: 24rpx;
+      font-weight: 700;
+      color: #c00000;
+    }
+  }
+  .right_btn {
+    margin-left: 50rpx;
+    .btn {
+      width: 240rpx;
+      height: 100rpx;
+      color: white;
+      background-color: #c00000;
+      text-align: center;
+      line-height: 100rpx;
+      border-radius: 0;
+    }
+    .btn.disabled {
+      background-color: #ccc;
+    }
+  }
+}

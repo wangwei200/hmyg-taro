@@ -15,11 +15,10 @@ import "./index.scss";
 function HMSwiper(props) {
   const { items, url, img, height, opentype, id } = props;
   if (!items || !items instanceof Array) throw Error("items不合法，必须为数组");
-  if (!id) throw Error("必须包含id属性");
   function renderSwiper() {
-    return items.map((item) => {
+    return items.map((item, index) => {
       return (
-        <SwiperItem key={item[id]}>
+        <SwiperItem key={id ? item[id] : index}>
           <Navigator url={item[url]} open-type={item[opentype]}>
             <Image src={item[img]} />
           </Navigator>

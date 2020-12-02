@@ -50,10 +50,11 @@ export default class Cate extends Component {
     return this.state.cates.map((item, index) => {
       return (
         <view
+          key={index}
           className={["item", index === this.state.active ? "active" : ""].join(
             " "
           )}
-          onClick={(e) => this.leftItemClick(index)}
+          onClick={() => this.leftItemClick(index)}
         >
           {item.cat_name}
         </view>
@@ -68,7 +69,15 @@ export default class Cate extends Component {
     if (items.length <= 0) return "";
     return items.map((item) => {
       return (
-        <view className="right-content-item" key={item.cat_id}>
+        <view
+          className="right-content-item"
+          key={item.cat_id}
+          onClick={() => {
+            Taro.navigateTo({
+              url: "/subPackages/pages/goods_list/goods_list",
+            });
+          }}
+        >
           <Image src={item.cat_icon}></Image>
           <Text>{item.cat_name}</Text>
         </view>
