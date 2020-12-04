@@ -1,3 +1,7 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 用户登录相关api
+ */
 import Taro from "@tarojs/taro";
 
 import { LOGIN_URL } from "./httpContants";

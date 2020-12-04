@@ -1,3 +1,7 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 商品详情页
+ */
 import React, { useState, useEffect } from "react";
 
 import Taro, { useRouter } from "@tarojs/taro";

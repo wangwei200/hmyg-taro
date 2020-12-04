@@ -1,3 +1,7 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 我的页面
+ */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 

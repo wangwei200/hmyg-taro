@@ -1,3 +1,8 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 购物车导航组件
+ */
+
 import React from "react";
 
 import "./index.scss";

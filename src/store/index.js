@@ -1,3 +1,7 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 初始化store
+ */
 import { createStore, applyMiddleware, compose } from "redux";
 
 import thunkMiddleware from "redux-thunk";

@@ -1,3 +1,8 @@
+/*
+ * Author：传智教育-黑马程序员长沙校区-前端学科组
+ * 购物车reducer
+ */
+
 import {
   CART_ADD,
   CART_EDIT_STATUS,
@@ -15,17 +20,17 @@ import {
  */
 const INITIAL_STATE = {
   carts: [
-    {
-      checked: true,
-      goodsId: 57444,
-      goodsName:
-        "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
-      goodsNum: 100,
-      goodsPrice: 1899,
-      goodsCount: 1,
-      goodsUrl:
-        "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
-    },
+    // {
+    //   checked: true,
+    //   goodsId: 57444,
+    //   goodsName:
+    //     "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
+    //   goodsNum: 100,
+    //   goodsPrice: 1899,
+    //   goodsCount: 1,
+    //   goodsUrl:
+    //     "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
+    // },
   ],
   checkCarts: [],
 };
