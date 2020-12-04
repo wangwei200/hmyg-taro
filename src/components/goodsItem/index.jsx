@@ -10,7 +10,15 @@ import "./index.scss";
  * @param {*} descColor 描述文字颜色
  */
 function GoodsItem(props) {
-  const { thumb, title, desc, descColor, click, children } = props;
+  const {
+    thumb,
+    title,
+    desc,
+    descColor,
+    click,
+    children,
+    backgroundColor,
+  } = props;
   // 渲染左侧
   let renderLeftThumb = null;
   let renderCalc = null;
@@ -51,7 +59,11 @@ function GoodsItem(props) {
     };
 
   return (
-    <view className="goods_item" onClick={() => click && click()}>
+    <view
+      style={{ backgroundColor: backgroundColor ? backgroundColor : "" }}
+      className="goods_item"
+      onClick={() => click && click()}
+    >
       <view className="left_thumb">{renderLeftThumb()}</view>
 
       <view className="right_content">

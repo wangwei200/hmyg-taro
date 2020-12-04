@@ -19,6 +19,7 @@ export default {
         "pages/goods_list/goods_list",
         "pages/goods_detail/goods_detail",
         "pages/order/index",
+        "pages/order_list/index",
       ],
     },
   ],

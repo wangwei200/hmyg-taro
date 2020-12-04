@@ -1,6 +1,10 @@
 import Taro from "@tarojs/taro";
 
-import { ORDER_CREATED_URL, ORDER_UNIFIEDORDER_URL } from "./httpContants";
+import {
+  ORDER_CREATED_URL,
+  ORDER_UNIFIEDORDER_URL,
+  ORDER_LIST_URL,
+} from "./httpContants";
 
 /**
  * 创建订单的api
@@ -37,6 +41,19 @@ export const createBeforePaymentOrder = async (order_number) => {
     url: ORDER_UNIFIEDORDER_URL,
     data: {
       order_number,
+    },
+  });
+};
+
+/**
+ * 订单查询
+ * @param {*} type 类型 1  全部订单     2 代付款订单    3 已付款订单
+ */
+export const orderListData = async (type) => {
+  return await Taro.request({
+    url: ORDER_LIST_URL,
+    data: {
+      type,
     },
   });
 };

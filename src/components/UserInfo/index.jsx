@@ -1,5 +1,7 @@
 import React from "react";
 
+import Taro from "@tarojs/taro";
+
 import "./index.scss";
 
 import icon1 from "../../assets/images/icon1.png";
@@ -45,7 +47,14 @@ export default function UserInfo(props) {
 
         <view class="panel">
           <view class="panel-title">我的订单</view>
-          <view class="panel-body">
+          <view
+            class="panel-body"
+            onClick={() => {
+              Taro.navigateTo({
+                url: "/subPackages/pages/order_list/index",
+              });
+            }}
+          >
             <view class="panel-item">
               <image src={icon1} class="icon"></image>
               <text>待付款</text>

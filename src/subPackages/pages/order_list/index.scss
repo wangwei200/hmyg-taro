@@ -1,0 +1,10 @@
+@import "~taro-ui/dist/style/components/tabs.scss";
+
+.order_list {
+  .at-tabs__item--active {
+    color: #c00000;
+  }
+  .at-tabs__item-underline {
+    background-color: #c00000;
+  }
+}

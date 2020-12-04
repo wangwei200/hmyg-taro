@@ -58,6 +58,6 @@ export const ORDER_UNIFIEDORDER_URL = "/my/orders/req_unifiedorder";
 export const ORDER_CHECK_URL = "/my/orders/chkOrder";
 
 /**
- * 所有订单
+ * 订单查询
  */
 export const ORDER_LIST_URL = "/my/orders/all";

@@ -1,0 +1,18 @@
+.order_item {
+  background-color: #fff;
+  border-bottom: 1rpx solid #ccc;
+  margin-bottom: 2rpx;
+  .order_title {
+    padding: 20px 15px;
+    font-size: 26rpx;
+  }
+  .order_footer {
+    font-size: 26rpx;
+    text-align: right;
+    padding: 20px 15px;
+    .order_price {
+      color: #c00000;
+      font-weight: 700;
+    }
+  }
+}
