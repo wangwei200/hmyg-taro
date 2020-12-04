@@ -4,26 +4,16 @@ import Taro, { useRouter } from "@tarojs/taro";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import HMSwiper from "../../../components/swiper";
+import HMSwiper from "../../../components/Swiper";
 
 import HMGoodsNav from "../../../components/HMGoodsNav";
 
 import { cart_add } from "../../../store/action/cart";
 
-import { GOODS_DETAIL_URL } from "../../../utils/http";
+import { goodsDetail } from "../../../api/goods";
 
 import "./goods_detail.scss";
-// @connect((res) => {
-//   console.log(res)
-// },(dispatch) => ({
-//   // 绑定方法
-//   getCartCount(){
-//     dispatch(cart_count())
-//   },
-//   addCart(){
-//     dispatch(cart_add())
-//   }
-// }))
+
 function GoodsDetail() {
   // 利用hooks配合redux
   const dispatch = useDispatch();
@@ -36,12 +26,7 @@ function GoodsDetail() {
   useEffect(() => {
     // 请求服务器
     async function requestDetail(id) {
-      const result = await Taro.request({
-        url: GOODS_DETAIL_URL,
-        data: {
-          goods_id: id,
-        },
-      });
+      const result = await goodsDetail(id);
       if (!result) return;
       setDetailInfo({ ...result });
     }

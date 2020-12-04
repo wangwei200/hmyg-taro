@@ -8,7 +8,7 @@ import Taro from "@tarojs/taro";
 
 import "./index.scss";
 
-import { SEARCH_URL } from "../../utils/http";
+import { searchData } from "../../api/search";
 
 export default class Search extends Component {
   state = {
@@ -56,12 +56,7 @@ export default class Search extends Component {
    */
   async requestSearchList(value) {
     if (!value) return;
-    const result = await Taro.request({
-      url: SEARCH_URL,
-      data: {
-        query: value,
-      },
-    });
+    const result = await searchData(value);
     if (!result) return;
     // 请求成功，保存关键字
     this.state.historyData.unshift(value);

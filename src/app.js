@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 
 import configStore from "./store";
 
-import { BASE_URL } from "../src/utils/http";
+import { BASE_URL } from "./api/httpContants";
 
 import "./app.scss";
 

@@ -6,10 +6,13 @@
     // 关闭多余的空格
     "curly": [0, "all"],
     // 用于赋值结构
-    "camelcase": [1, { "properties": "never" }],
+    "camelcase": [0, { "properties": "never" }],
     "no-unused-expressions": 0,
     "spaced-comment": 0,
     "react/no-direct-mutation-state": 0,
-    "jsx-quotes": 0
+    "jsx-quotes": 0,
+    "react/forbid-elements": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "react/sort-comp": 0
   }
 }

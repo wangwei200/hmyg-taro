@@ -3,8 +3,31 @@ import {
   CART_ADD,
   CART_EDIT_COUNT,
   CART_EDIT_ALL_CHECKED,
+  CART_DELETE_CART,
+  CART_CHECKED_CART,
 } from "../constants/cart";
 
+/**
+ * 发送action 获取选中的购物车数据
+ */
+export const cart_checked_cart = () => {
+  return {
+    type: CART_CHECKED_CART,
+    preload: {},
+  };
+};
+/**
+ * 删除购物车数据
+ * @param {*} goodsId 商品id
+ */
+export const cart_delete_cart = (goodsId) => {
+  return {
+    type: CART_DELETE_CART,
+    preload: {
+      goodsId,
+    },
+  };
+};
 /**
  * 修改整个选中状态
  * @param {*} status 状态值

@@ -17,3 +17,13 @@ export const CART_EDIT_COUNT = "CART_EDIT_COUNT";
  * 修改整个选中状态
  */
 export const CART_EDIT_ALL_CHECKED = "CART_EDIT_ALL_CHECKED";
+
+/**
+ * 删除购物车数据
+ */
+export const CART_DELETE_CART = "CART_DELETE_CART";
+
+/**
+ * 选中购物车的action
+ */
+export const CART_CHECKED_CART ="CART_CHECKED_CART"

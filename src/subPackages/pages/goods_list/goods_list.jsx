@@ -5,9 +5,9 @@ import Taro, {
   useReachBottom,
 } from "@tarojs/taro";
 
-import { GOODS_LIST_URL } from "../../../utils/http";
+import GoodsItem from "../../../components/GoodsItem";
 
-import GoodsItem from "../../../components/goodsItem";
+import { goodsListData } from "../../../api/goods";
 
 export default function () {
   // 商品列表数据
@@ -40,14 +40,11 @@ export default function () {
   async function requestGoods() {
     changeLoadingStatus(true);
     // 发送请求
-    const result = await Taro.request({
-      url: GOODS_LIST_URL,
-      data: {
-        query,
-        pagenum: queryInfo.page,
-        pagesize: queryInfo.pageSize,
-      },
-    });
+    const result = await goodsListData(
+      query,
+      queryInfo.page,
+      queryInfo.pageSize
+    );
     if (!result) return;
 
     changeLoadingStatus(false);

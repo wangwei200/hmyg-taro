@@ -15,7 +15,11 @@ export default {
   subpackages: [
     {
       root: "subPackages",
-      pages: ["pages/goods_list/goods_list", "pages/goods_detail/goods_detail"],
+      pages: [
+        "pages/goods_list/goods_list",
+        "pages/goods_detail/goods_detail",
+        "pages/order/index",
+      ],
     },
   ],
   preloadRule: {

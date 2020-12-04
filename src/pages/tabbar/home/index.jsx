@@ -6,17 +6,26 @@ import Taro from "@tarojs/taro";
 
 import { Navigator, Image } from "@tarojs/components";
 
-import HMSwiper from "../../../components/swiper";
+import HMSwiper from "../../../components/Swiper";
 
-import { SWIPER_URL, NAV_URL, FLOOR_URL } from "../../../utils/http";
+import Search from "../../../components/Search";
 
-import Search from "../../../components/search";
+import { user_get } from "../../../store/action/user";
+
+import { swiperData, navData, floorData } from "../../../api/home";
 
 import "./index.scss";
 
-@connect(({ cartReducer }) => {
-  return cartReducer;
-})
+@connect(
+  ({ cartReducer }) => {
+    return cartReducer;
+  },
+  (dispatch) => ({
+    getUserInfo() {
+      dispatch(user_get());
+    },
+  })
+)
 class Home extends Component {
   state = {
     swiperList: [],
@@ -35,9 +44,7 @@ class Home extends Component {
    * 获取楼层区数据
    */
   async getFloorData() {
-    const result = await Taro.request({
-      url: FLOOR_URL,
-    });
+    const result = await floorData();
     if (!result) return;
     this.setState({
       floorData: [...result],
@@ -47,9 +54,7 @@ class Home extends Component {
    * 获取nav数据
    */
   async getNaviData() {
-    const result = await Taro.request({
-      url: NAV_URL,
-    });
+    const result = await navData();
     if (!result) return;
     this.setState({
       navs: [...result],
@@ -59,9 +64,7 @@ class Home extends Component {
    * 获取轮播图数据
    */
   async getSwiperList() {
-    const result = await Taro.request({
-      url: SWIPER_URL,
-    });
+    const result = await swiperData();
     // 如果请求错误，那么result值为null
     if (!result) return;
     this.setState({
@@ -92,6 +95,9 @@ class Home extends Component {
       index: 2,
       text: carts.length + "",
     }).catch((e) => e);
+
+    // 获取用户信息
+    this.props.getUserInfo();
   }
   /**
    * 渲染携带url的

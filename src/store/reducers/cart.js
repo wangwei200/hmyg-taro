@@ -1,9 +1,10 @@
-import Taro from "@tarojs/taro";
 import {
   CART_ADD,
   CART_EDIT_STATUS,
   CART_EDIT_COUNT,
   CART_EDIT_ALL_CHECKED,
+  CART_DELETE_CART,
+  CART_CHECKED_CART,
 } from "../constants/cart";
 
 /**
@@ -16,50 +17,6 @@ const INITIAL_STATE = {
     {
       checked: true,
       goodsId: 57444,
-      goodsName:
-        "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
-      goodsNum: 100,
-      goodsPrice: 1899,
-      goodsCount: 1,
-      goodsUrl:
-        "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
-    },
-    {
-      checked: true,
-      goodsId: 57443,
-      goodsName:
-        "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
-      goodsNum: 100,
-      goodsPrice: 1899,
-      goodsCount: 1,
-      goodsUrl:
-        "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
-    },
-    {
-      checked: true,
-      goodsId: 57442,
-      goodsName:
-        "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
-      goodsNum: 100,
-      goodsPrice: 1899,
-      goodsCount: 1,
-      goodsUrl:
-        "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
-    },
-    {
-      checked: true,
-      goodsId: 57441,
-      goodsName:
-        "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
-      goodsNum: 100,
-      goodsPrice: 1899,
-      goodsCount: 1,
-      goodsUrl:
-        "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
-    },
-    {
-      checked: true,
-      goodsId: 57440,
       goodsName:
         "创维（Skyworth）42X6 42英寸10核智能酷开网络平板液晶电视（黑色）",
       goodsNum: 100,
@@ -123,8 +80,25 @@ export default function cartReducer(state = INITIAL_STATE, action) {
         ...state,
         carts: [...carts],
       };
+    case CART_DELETE_CART:
+      // 删除购物车数据
+      // 解构出来id
+      const { goodsId: gId } = action.preload;
+      // 获取到对应的索引
+      const deleteIndex = carts.findIndex((x) => x.goodsId === gId);
+      // 删除数组对应项
+      carts.splice(deleteIndex, 1);
+      return {
+        ...state,
+        carts: [...carts],
+      };
+    case CART_CHECKED_CART:
+      const checkedCarts = carts.filter((x) => x.checked);
+      return {
+        ...state,
+        carts: [...checkedCarts],
+      };
     default:
       return state;
   }
 }
-

@@ -4,9 +4,9 @@ import Taro from "@tarojs/taro";
 
 import { ScrollView, Image, Text } from "@tarojs/components";
 
-import { CATEGORIES_URL } from "../../../utils/http";
+import Search from "../../../components/Search";
 
-import Search from "../../../components/search";
+import { categoryData } from "../../../api/cates";
 
 import "./index.scss";
 
@@ -26,9 +26,7 @@ export default class Cate extends Component {
     this.getCategoryData();
   }
   async getCategoryData() {
-    const result = await Taro.request({
-      url: CATEGORIES_URL,
-    });
+    const result = await categoryData();
     if (!result) return;
     this.setState({
       cates: [...result],

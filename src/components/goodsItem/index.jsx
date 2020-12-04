@@ -14,7 +14,8 @@ function GoodsItem(props) {
   // 渲染左侧
   let renderLeftThumb = null;
   let renderCalc = null;
-  if (children && children.length > 0) {
+  if (children && children instanceof Array && children.length > 0) {
+    // 多个插槽的情况下
     children.forEach((child) => {
       if (child.props.slot === "thumb") {
         // 需要通过插槽方式渲染左侧
@@ -28,11 +29,26 @@ function GoodsItem(props) {
         };
       }
     });
-  } else {
+  } else if (children && children instanceof Object) {
+    // 如果只有一个插槽的情况下
+    if (children.props.slot === "thumb") {
+      // 需要通过插槽方式渲染左侧
+      renderLeftThumb = () => {
+        return children.props.children;
+      };
+    } else if (children.props.slot === "calc") {
+      // 需要渲染计数器
+      renderCalc = () => {
+        return children.props.children;
+      };
+    }
+  }
+
+  if (!renderLeftThumb)
+    //如果为空
     renderLeftThumb = () => {
       return <image className="thumb" mode="widthFix" src={thumb} />;
     };
-  }
 
   return (
     <view className="goods_item" onClick={() => click && click()}>

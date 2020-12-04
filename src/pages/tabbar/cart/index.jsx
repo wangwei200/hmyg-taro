@@ -6,26 +6,31 @@ import { connect } from "react-redux";
 
 import { Checkbox, CheckboxGroup } from "@tarojs/components";
 
-import { AtButton, AtInputNumber } from "taro-ui";
+import { AtInputNumber, AtSwipeAction } from "taro-ui";
 
-import Settle from "../../../components/settle";
+import Settle from "../../../components/Settle";
 
-import Empty from "../../../components/empty";
+import Empty from "../../../components/Empty";
 
-import GoodsItem from "../../../components/goodsItem";
+import GoodsItem from "../../../components/GoodsItem";
 
 import {
   cart_edit_status,
   cart_edit_count,
   cart_edit_all_checked,
+  cart_delete_cart,
 } from "../../../store/action/cart";
 
 import "./index.scss";
 
 @connect(
-  ({ cartReducer }) => {
+  ({ cartReducer, userReducer }) => {
     console.log("购物车:", cartReducer);
-    return cartReducer;
+    console.log("用户:", userReducer);
+    return {
+      ...cartReducer,
+      ...userReducer,
+    };
   },
   (dispatch) => ({
     // 编辑状态
@@ -39,6 +44,9 @@ import "./index.scss";
     editAllStatus(status) {
       dispatch(cart_edit_all_checked(status));
     },
+    deleteCart(goodsId) {
+      dispatch(cart_delete_cart(goodsId));
+    },
   })
 )
 class Cart extends Component {
@@ -48,55 +56,7 @@ class Cart extends Component {
   state = {
     address: Taro.getStorageSync("address"),
   };
-  /**
-   * 渲染登录选择按钮
-   */
-  renderChooseAddressBtn() {
-    return (
-      <AtButton
-        type="secondary"
-        className="choose_address"
-        onClick={this.chooseAddress.bind(this)}
-      >
-        获取地址+
-      </AtButton>
-    );
-  }
-  /**
-   * 获取地址
-   */
-  async chooseAddress() {
-    const result = await Taro.chooseAddress().catch((e) => e);
-    if (result.errMsg === "chooseAddress:fail cancel")
-      return Taro.showToast({
-        title: "取消地址选择",
-        icon: "none",
-      });
-    this.setState({
-      address: {
-        ...result,
-      },
-    });
-    Taro.setStorageSync("address", result);
-  }
-  /**
-   * 渲染地址
-   */
-  renderChooseAddress() {
-    const { address } = this.state;
-    return (
-      <>
-        <view className="first_line" onClick={this.chooseAddress}>
-          <view className="left">收货人：{address.userName}</view>
-          <view className="right">
-            <view className="tel">电话：{address.telNumber}</view>
-            <view className="at-icon at-icon-chevron-right"></view>
-          </view>
-        </view>
-        <view className="second_line">收货地址：{this.formartAddress()}</view>
-      </>
-    );
-  }
+
   /**
    * 页面显示时候调用
    */
@@ -107,19 +67,6 @@ class Cart extends Component {
       index: 2,
       text: carts.length + "",
     }).catch((e) => e);
-  }
-  /**
-   * 格式化收货地址
-   */
-  formartAddress() {
-    const {
-      provinceName,
-      cityName,
-      countyName,
-      detailInfo,
-    } = this.state.address;
-
-    return provinceName + cityName + countyName + detailInfo;
   }
 
   checkChangedHandler(ev, id) {
@@ -137,48 +84,63 @@ class Cart extends Component {
     this.props.editCount(count, id);
   }
   /**
+   * 删除购物车数据
+   * @param {*} id 商品id
+   */
+  deleteCartHanlder(id) {
+    this.props.deleteCart(id);
+  }
+  /**
    * 渲染购物车列表
    */
   renderCartList() {
     const { carts } = this.props;
     return carts.map((cart) => {
       return (
-        <GoodsItem
+        <AtSwipeAction
+          onClick={this.deleteCartHanlder.bind(this, cart.goodsId)}
+          utoClose
+          options={[
+            {
+              text: "删除",
+              style: {
+                backgroundColor: "#C00000",
+              },
+            },
+          ]}
           key={cart.goodsId}
-          title={cart.goodsName}
-          desc={`￥${cart.goodsPrice}`}
-          descColor="#C00000"
         >
-          <view slot="thumb">
-            <view className="left_thumb">
-              {/* <RadioGroup
-                bindchange={() => this.checkChangedHandler(cart.goodsId)}
-              >
-                <Radio color="#C00000" checked={cart.checked}></Radio>
-              </RadioGroup> */}
-              <CheckboxGroup
-                onChange={(ev) => this.checkChangedHandler(ev, cart.goodsId)}
-              >
-                <Checkbox
-                  value={cart.goodsId}
-                  checked={cart.checked}
-                  color="#C00000"
-                />
-              </CheckboxGroup>
+          <GoodsItem
+            title={cart.goodsName}
+            desc={`￥${cart.goodsPrice}`}
+            descColor="#C00000"
+          >
+            <view slot="thumb">
+              <view className="left_thumb">
+                <CheckboxGroup
+                  onChange={(ev) => this.checkChangedHandler(ev, cart.goodsId)}
+                >
+                  <Checkbox
+                    value={cart.goodsId}
+                    checked={cart.checked}
+                    color="#C00000"
+                  />
+                </CheckboxGroup>
 
-              <image src={cart.goodsUrl} mode="widthFix"></image>
+                <image src={cart.goodsUrl} mode="widthFix"></image>
+              </view>
             </view>
-          </view>
-          <view className="calc_count" slot="calc">
-            <AtInputNumber
-              min={1}
-              max={99}
-              step={1}
-              value={cart.goodsCount}
-              onChange={(ev) => this.handleCountChange(ev, cart.goodsId)}
-            />
-          </view>
-        </GoodsItem>
+            <view className="calc_count" slot="calc">
+              <AtInputNumber
+                min={1}
+                max={99}
+                step={1}
+                value={cart.goodsCount}
+                onChange={(ev) => this.handleCountChange(ev, cart.goodsId)}
+              />
+            </view>
+          </GoodsItem>
+        </AtSwipeAction>
       );
     });
   }
@@ -188,7 +150,7 @@ class Cart extends Component {
   checkStatus() {
     const { carts } = this.props;
     // 如果没有，或者长度小于0，返回false
-    if (!carts || carts.length < 0) return false;
+    if (!carts || carts.length <= 0) return false;
     // 只要中途有一个false，那么就代表不是全选
     const result = carts.some((cart) => {
       // 如果有满足的就返回true，这里需要筛选的是false状态
@@ -231,18 +193,33 @@ class Cart extends Component {
   /**
    * 点击结算，判断地址是否填写，判断是否登录
    */
-  submitHandle() {}
+  submitHandle() {
+    // 判断用户是否登录，如果没有，跳转到登录页面
+    const { user } = this.props;
+    if (!user.nickName)
+      return Taro.showModal({
+        cancelColor: "#ccc",
+        cancelText: "取消",
+        confirmColor: "#c00000",
+        confirmText: "确定",
+        content: "还未登录，是否跳转登录页面",
+        success: (res) => {
+          // 用户点击了确定
+          if (res.confirm)
+            Taro.switchTab({
+              url: "/pages/tabbar/my/index",
+            });
+        },
+      });
+    // 如果登录了，跳转到结算中心
+    Taro.navigateTo({
+      url: "/subPackages/pages/order/index",
+    });
+  }
   render() {
-    const { address } = this.state;
     const { carts } = this.props;
     return (
       <view className="cart">
-        <view className="cart_header">
-          {address ? this.renderChooseAddress() : this.renderChooseAddressBtn()}
-          <view className="border">
-            <image src="../../../assets/cart_border@2x.png" />
-          </view>
-        </view>
         <view className="cart_content">
           <view className="header">
             <view className="at-icon at-icon-shopping-bag"></view>
@@ -261,7 +238,7 @@ class Cart extends Component {
           count={this.getCheckCount()}
           price={this.calcCheckPrice()}
           onChange={this.allCheckHandle.bind(this)}
-          onSubmit={this.submitHandle}
+          onSubmit={this.submitHandle.bind(this)}
         />
       </view>
     );

@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "hmyg-taro",
   "description": "taro版本的小程序",
-  "appid": "touristappid",
+  "appid": "wx38d8faffac4d34d2",
   "setting": {
     "urlCheck": true,
     "es6": false,
