@@ -3,7 +3,7 @@ import Taro from "@tarojs/taro";
 import { USER_SAVE, USER_GET } from "../constants/user";
 
 const INITIAL_STATE = {
-  user: null,
+  user: Taro.getStorageSync("user_info"),
 };
 
 export default function userReducer(state = INITIAL_STATE, action) {

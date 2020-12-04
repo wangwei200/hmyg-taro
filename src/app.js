@@ -23,9 +23,19 @@ class App extends Component {
     Taro.showLoading({ title: "加载中" });
     // 获取请求参数
     const requestParams = chain.requestParams;
+    // 设置请求头
+    requestParams.header = {
+      "Content-type": "application/json",
+    };
     // 解构 请求方法，数据，和 url
     const { method, data, url } = requestParams;
     console.log(`http ${method || "GET"} --> ${url} data: `, data);
+    // 判断请求的url是否是权限url
+    if (url.startsWith("/my")) {
+      // 以my开头的需要检验token，并且携带token
+      requestParams.header["Authorization"] =
+        store.getState().userReducer.user.token;
+    }
     return chain
       .proceed({
         ...requestParams,

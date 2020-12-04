@@ -5,8 +5,15 @@ import {
   CART_EDIT_ALL_CHECKED,
   CART_DELETE_CART,
   CART_CHECKED_CART,
+  CART_PAY_SUCCESS,
 } from "../constants/cart";
 
+export const cart_pay_success = () => {
+  return {
+    type: CART_PAY_SUCCESS,
+    preload: {},
+  };
+};
 /**
  * 发送action 获取选中的购物车数据
  */

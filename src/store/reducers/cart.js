@@ -5,6 +5,7 @@ import {
   CART_EDIT_ALL_CHECKED,
   CART_DELETE_CART,
   CART_CHECKED_CART,
+  CART_PAY_SUCCESS,
 } from "../constants/cart";
 
 /**
@@ -26,6 +27,7 @@ const INITIAL_STATE = {
         "http://image2.suning.cn/uimg/b2c/newcatentries/0070078057-000000000634917020_1_400x400.jpg",
     },
   ],
+  checkCarts: [],
 };
 
 /**
@@ -96,7 +98,14 @@ export default function cartReducer(state = INITIAL_STATE, action) {
       const checkedCarts = carts.filter((x) => x.checked);
       return {
         ...state,
-        carts: [...checkedCarts],
+        checkCarts: [...checkedCarts],
+      };
+    case CART_PAY_SUCCESS:
+      // 支付成功，删除掉已经支付的商品
+      const unCheckCarts = carts.filter((x) => !x.checked);
+      return {
+        ...state,
+        carts: [...unCheckCarts],
       };
     default:
       return state;

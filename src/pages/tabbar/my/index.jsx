@@ -22,7 +22,6 @@ class My extends Component {
   }
   render() {
     const { user } = this.props;
-    console.log(user);
     Taro.hideToast();
     return (
       <view>

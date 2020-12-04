@@ -8,7 +8,10 @@ import Taro from "@tarojs/taro";
 
 import borderIcon from "../../../assets/cart_border@2x.png";
 
-import { cart_checked_cart } from "../../../store/action/cart";
+import {
+  cart_checked_cart,
+  cart_pay_success,
+} from "../../../store/action/cart";
 
 import GoodsItem from "../../../components/GoodsItem";
 
@@ -18,12 +21,12 @@ import { createOrder, createBeforePaymentOrder } from "../../../api/order";
 
 import "./index.scss";
 
-export default function Order(props) {
-  const [address, setAddress] = useState(null);
+export default function Order() {
+  const [address, setAddress] = useState(Taro.getStorageSync("address"));
 
   const dispatch = useDispatch();
 
-  const carts = useSelector(({ cartReducer }) => cartReducer.carts);
+  const carts = useSelector(({ cartReducer }) => cartReducer.checkCarts);
   console.log(carts);
   // 只需要调用一次
   useEffect(() => {
@@ -119,7 +122,7 @@ export default function Order(props) {
   /**
    * 提交订单
    */
-  const submitHandler = () => {
+  const submitHandler = async () => {
     // 判断地址有没有填写
     if (!address)
       return Taro.showToast({
@@ -132,12 +135,41 @@ export default function Order(props) {
 
     // 开始进行请求
     // 1. 创建订单
-    const cOrderResult = createOrder();
+    // 1.1 定义订单请求参数
+    const consignee_addr = formartAddress();
+    const order_detail = JSON.stringify(carts);
+    const goods = carts.map((x) => ({
+      goods_id: x.goodsId,
+      goods_number: x.goodsCount,
+      goods_price: x.goodsPrice,
+    }));
+    const cOrderResult = await createOrder(
+      "0.01",
+      consignee_addr,
+      order_detail,
+      goods
+    );
     if (!cOrderResult) return;
 
     // 2. 生成预支付订单
-    const cBeforePay = createBeforePaymentOrder();
+    const cBeforePay = await createBeforePaymentOrder(
+      cOrderResult.order_number
+    );
     if (!cBeforePay) return;
+    // 3. 调用支付的api
+    const payResult = await Taro.requestPayment({
+      ...cBeforePay.pay,
+    }).catch((e) => e);
+    if (payResult.errMsg === "requestPayment:fail cancel")
+      return Taro.showToast({ title: "取消支付", icon: "none" });
+    if (payResult.errMsg === "requestPayment:ok") {
+      Taro.showToast({ title: "支付成功", icon: "success" });
+      // 删除购物车选中的商品，返回到购物车页面
+      dispatch(cart_pay_success());
+      Taro.switchTab({
+        url: "/pages/tabbar/cart/index",
+      });
+    }
   };
 
   return (

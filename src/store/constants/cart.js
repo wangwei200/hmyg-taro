@@ -27,3 +27,8 @@ export const CART_DELETE_CART = "CART_DELETE_CART";
  * 选中购物车的action
  */
 export const CART_CHECKED_CART ="CART_CHECKED_CART"
+
+/**
+ * 支付成功的action
+ */
+export const CART_PAY_SUCCESS = "CART_PAY_SUCCESS"
